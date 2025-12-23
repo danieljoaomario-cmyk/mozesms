@@ -1,20 +1,89 @@
-# MozeSMS API
+# 📱 MozeSMS API
 
-**Professional SMS Gateway API for Mozambique**
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![API Version](https://img.shields.io/badge/API-v2.0-green.svg)](https://api.mozesms.com)
+[![Uptime](https://img.shields.io/badge/Uptime-99.9%25-brightgreen.svg)](https://status.mozesms.com)
+[![Support](https://img.shields.io/badge/Support-24%2F7-blue.svg)](mailto:support@mozesms.com)
 
-MozeSMS provides a reliable, high-performance REST API for sending SMS messages in Mozambique. Designed for developers and businesses who need a simple, secure, and scalable messaging solution.
+**Enterprise-Grade SMS Gateway for Mozambique**
 
-## Features
+MozeSMS is the leading SMS delivery platform for businesses operating in Mozambique. Our robust REST API enables developers to integrate SMS capabilities into their applications with just a few lines of code. Trusted by banks, fintech companies, e-commerce platforms, and enterprises across Mozambique.
 
-- **REST API** - Modern JSON-based API
-- **Single & Bulk SMS** - Send one or thousands of messages
-- **Real-time Delivery** - Fast message delivery across all Mozambican networks
-- **Balance Management** - Real-time balance queries
-- **Message History** - Complete message tracking and history
-- **Delivery Reports** - Track message delivery status
-- **Multiple Authentication** - Bearer Token, API Keys, or JWT
-- **Unicode Support** - Full support for special characters and emojis
-- **High Availability** - 99.9% uptime SLA
+## 🌟 Why Choose MozeSMS?
+
+- **🚀 Fast Delivery** - 1-5 second average delivery time across all Mozambican carriers (Vodacom, Movitel, TMcel)
+- **🔒 Enterprise Security** - Bank-grade encryption, secure credential management, and compliance with data protection standards
+- **📊 Real-time Analytics** - Track delivery rates, response times, and campaign performance
+- **💪 High Reliability** - 99.9% uptime SLA with automatic failover and redundant infrastructure
+- **🌍 Wide Coverage** - Direct connections with all major Mozambican mobile operators
+- **💼 Business Ready** - Supports transactional SMS, marketing campaigns, OTP verification, and alerts
+
+## ✨ Core Features
+
+### Messaging Capabilities
+- ✅ **Single SMS** - Send individual messages with personal content
+- ✅ **Bulk SMS** - Send thousands of messages simultaneously (up to 10,000 per batch)
+- ✅ **Scheduled SMS** - Schedule messages for future delivery
+- ✅ **Two-Way SMS** - Receive replies and build interactive experiences (coming soon)
+- ✅ **Unicode Support** - Full support for emojis and special characters
+- ✅ **Long Messages** - Automatic segmentation for messages up to 918 characters
+
+### Developer Experience
+- 🔧 **RESTful API** - Modern JSON-based architecture
+- 🔐 **Multiple Auth Methods** - Bearer Token, API Keys, or JWT
+- 📚 **Comprehensive Docs** - Complete API reference with examples in 5+ languages
+- 🎯 **Webhooks** - Real-time delivery status notifications
+- 🧪 **Sandbox Environment** - Test without spending credits
+- 📦 **SDKs Coming Soon** - Official libraries for PHP, Python, Node.js, Java, C#
+
+### Business Tools
+- 💰 **Real-time Balance** - Monitor your credit balance via API
+- 📈 **Delivery Reports** - Track message status (sent, delivered, failed)
+- 🗂️ **Message History** - Complete audit trail with filtering and search
+- 👤 **Custom Sender IDs** - Brand your messages with your company name
+- 🎨 **Templates** - Save and reuse message templates
+- 📊 **Analytics Dashboard** - Visualize your SMS campaigns (portal)
+
+## 🎯 Use Cases
+
+### Financial Services
+- Transaction confirmations and receipts
+- Account balance notifications
+- Security alerts and fraud detection
+- Payment reminders
+
+### E-Commerce & Retail
+- Order confirmations and shipping updates
+- Promotional campaigns and flash sales
+- Customer support and feedback requests
+- Loyalty program notifications
+
+### Healthcare
+- Appointment reminders
+- Prescription refill alerts
+- Test results notifications
+- Health tips and wellness campaigns
+
+### Authentication & Security
+- Two-factor authentication (2FA)
+- One-time passwords (OTP)
+- Password reset verification
+- Account activation codes
+
+### Logistics & Transportation
+- Delivery status updates
+- Driver notifications
+- Route changes and delays
+- Customer pickup alerts
+
+## 🏢 Enterprise Features
+
+- **Dedicated Account Manager** - Personal support for high-volume clients
+- **Custom Integration** - Tailored solutions for complex requirements
+- **Priority Support** - 24/7 technical assistance
+- **Volume Discounts** - Competitive pricing for large-scale operations
+- **Service Level Agreements** - Guaranteed uptime and performance
+- **Compliance Support** - GDPR and local regulations assistance
 
 ## Quick Start
 
@@ -196,19 +265,44 @@ import org.json.*;
 public class MozeSMS {
     public static void main(String[] args) throws Exception {
         String apiUrl = "https://api.mozesms.com/v2/sms/send";
-        String authToken = "Bearer 12:YOUR_API_KEY";
-        
-        JSONObject payload = new JSONObject();
-        payload.put("phone", "258847001234");
-        payload.put("message", "Hello World");
-        payload.put("sender_id", "YourBrand");
-        
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(apiUrl))
-            .header("Authorization", authToken)
-            .header("Content-Type", "application/json")
-            .POST(HttpRequest.BodyPublishers.ofString(payload.toString()))
+   💰 Pricing
+
+| Service | Price (MZN) | Volume Discount |
+|---------|-------------|-----------------|
+| Standard SMS | 1.35 per message | Available for 10,000+ |
+| Minimum Recharge | 100.00 | One-time setup |
+| Custom Sender ID | Free | Approval required |
+
+**Message Segmentation:**
+- Standard text (GSM 7-bit): 160 characters per segment
+- Unicode (emojis/special chars): 70 characters per segment
+- Each segment is charged separately
+- No setup fees or monthly charges
+
+**Example Pricing:**
+- 320 character message = 3 segments = 4.05 MZN
+- 140 character message with emoji = 2 segments = 2.70 MZN
+
+**Enterprise Pricing:** Contact us for volume discounts and custom packages.
+
+## ⚡ Performance & Limits
+
+### Rate Limits
+- **API Requests:** 100 requests per minute per account
+- **Bulk Sending:** 1,000 SMS per minute
+- **Concurrent Connections:** 10 simultaneous connections
+
+### Performance Metrics
+- **Average Delivery Time:** 1-5 seconds
+- **Peak Delivery Time:** Up to 30 seconds during high traffic
+- **Success Rate:** 99.5% average delivery success
+- **Uptime SLA:** 99.9% guaranteed availability
+
+### Technical Specifications
+- **Timeout:** 30 seconds per request
+- **Max Message Length:** 918 characters (6 segments)
+- **Max Recipients per Bulk:** 10,000 per request
+- **Supported Networks:** Vodacom, Movitel, TMcelrs.ofString(payload.toString()))
             .build();
             
         HttpResponse<String> response = client.send(request, 
