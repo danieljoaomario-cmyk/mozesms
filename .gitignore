@@ -1,0 +1,94 @@
+# ============================================
+# GITIGNORE PARA REPOSITÓRIO PÚBLICO
+# Protege dados sensíveis e credenciais
+# ============================================
+
+# ========== ARQUIVOS CRÍTICOS (NUNCA COMMITAR) ==========
+*.env
+.env.*
+!.env.example
+config.php
+database.php
+credentials.php
+secrets.php
+*_credentials.php
+api_keys.php
+
+# Senhas e tokens
+*password*
+*secret*
+*token*
+*api_key*
+!*example*
+
+# ========== LOGS E DADOS ==========
+logs/
+*.log
+storage/logs/
+storage/cache/
+
+# Dados de produção
+backup/
+backups/
+*.sql
+*.sqlite
+*.db
+*.dump
+
+# ========== UPLOADS E CACHE ==========
+uploads/
+temp/
+tmp/
+cache/
+*.cache
+
+# ========== DEPENDÊNCIAS ==========
+vendor/
+node_modules/
+composer.lock
+package-lock.json
+
+# ========== IDE E SISTEMA ==========
+.vscode/
+.idea/
+*.sublime-*
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ========== ARQUIVOS TEMPORÁRIOS ==========
+*~
+*.bak
+*.backup
+*.swp
+*.tmp
+*.old
+
+# ========== TESTES INTERNOS ==========
+tests/my/
+tests/debug/
+tests/archived/
+*_test.php
+*_local.php
+
+# ========== SCRIPTS DE DEPLOY ==========
+*.ps1
+*.bat
+*.sh
+!install.sh
+deploy/
+ssh/
+
+# ========== DOCUMENTAÇÃO INTERNA ==========
+INTERNAL*.md
+PRIVATE*.md
+CREDENTIALS*.md
+TODO_PRIVATE*.md
+
+# ========== ARQUIVOS ESPECÍFICOS ==========
+ftpsync.settings
+*.zip
+*.tar.gz
+*.rar
+mozesms_tmp/
+archived/
