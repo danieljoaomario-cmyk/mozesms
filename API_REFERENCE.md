@@ -362,6 +362,197 @@ Content-Type: application/json
 
 ---
 
+## Legacy API Endpoints
+
+For backward compatibility with existing integrations. These endpoints maintain the old API format.
+
+### Legacy Single SMS (v2/v3)
+
+Send SMS using form-data format (old API).
+
+**Endpoints:**
+- `POST /message/v2`
+- `POST /message/v3`
+
+**Authentication:**
+```http
+Authorization: Bearer {user_id}:{api_key}
+```
+
+**Content-Type:** `application/x-www-form-urlencoded`
+
+**Request Parameters (Form-data):**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| from | string | Yes | Sender ID (max 11 characters) |
+| to | string | Yes | Recipient phone number |
+| message | string | Yes | Message text |
+
+**Example Request:**
+```bash
+curl -X POST https://api.mozesms.com/message/v2 \
+  -H "Authorization: Bearer 12:EYjgLC-PtDmy2-duGtiX-pHgbop" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "from=YourBrand&to=258847001234&message=Hello from legacy API"
+```
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "OTIxODV8MTc2NjQ0NDM4NXwxMg==",
+    "phone": "258847001234",
+    "status": "sent",
+    "parts": 1,
+    "cost": 1.35,
+    "remaining_balance": 2674.63
+  }
+}
+```
+
+---
+
+### Legacy OTP Send
+
+Send OTP verification codes (v2 format).
+
+**Endpoint:** `POST /otp/v2`
+
+**Authentication:**
+```http
+Authorization: Bearer {user_id}:{api_key}
+```
+
+**Content-Type:** `application/x-www-form-urlencoded`
+
+**Request Parameters (Form-data):**
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| to | string | Yes | Recipient phone number |
+| code | string | No | OTP code (auto-generated if not provided) |
+| from | string | No | Sender ID (default: "MozeSMS") |
+
+**Example Request:**
+```bash
+curl -X POST https://api.mozesms.com/otp/v2 \
+  -H "Authorization: Bearer 12:EYjgLC-PtDmy2-duGtiX-pHgbop" \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "to=258847001234&from=YourBrand"
+```
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": {
+    "id": "OTIxODV8MTc2NjQ0NDM4NXwxMg==",
+    "phone": "258847001234",
+    "status": "sent",
+    "parts": 1,
+    "cost": 1.35,
+    "remaining_balance": 2673.28
+  }
+}
+```
+
+---
+
+### Legacy Bulk SMS
+
+Send bulk SMS using legacy JSON array format.
+
+**Endpoint:** `POST /bulk_json/v2`
+
+**Authentication:**
+```http
+Authorization: Bearer {user_id}:{api_key}
+```
+
+**Content-Type:** `application/json`
+
+**Request Body (Format 1 - Direct Array):**
+```json
+[
+  {
+    "number": "258847001234",
+    "text": "Message for recipient 1"
+  },
+  {
+    "number": "258843456789",
+    "text": "Message for recipient 2"
+  }
+]
+```
+
+**Request Body (Format 2 - With Messages Key):**
+```json
+{
+  "messages": [
+    {
+      "number": "258847001234",
+      "text": "Message for recipient 1"
+    },
+    {
+      "number": "258843456789",
+      "text": "Message for recipient 2"
+    }
+  ]
+}
+```
+
+**Request Body (Format 3 - PHP post_data):**
+```
+post_data=[{"number":"258847001234","text":"Message 1"},{"number":"258843456789","text":"Message 2"}]
+```
+
+**Example Request:**
+```bash
+curl -X POST https://api.mozesms.com/bulk_json/v2 \
+  -H "Authorization: Bearer 12:EYjgLC-PtDmy2-duGtiX-pHgbop" \
+  -H "Content-Type: application/json" \
+  -d '[
+    {"number": "258847001234", "text": "Hello recipient 1"},
+    {"number": "258843456789", "text": "Hello recipient 2"}
+  ]'
+```
+
+**Response (200 OK):**
+```json
+{
+  "success": true,
+  "data": {
+    "batch_id": "BATCH_674995afb9b7c",
+    "total_messages": 2,
+    "total_cost": 2.70,
+    "remaining_balance": 2670.58,
+    "results": [
+      {
+        "phone": "258847001234",
+        "status": "sent",
+        "parts": 1,
+        "cost": 1.35
+      },
+      {
+        "phone": "258843456789",
+        "status": "sent",
+        "parts": 1,
+        "cost": 1.35
+      }
+    ],
+    "summary": {
+      "sent": 2,
+      "failed": 0,
+      "invalid": 0
+    }
+  }
+}
+```
+
+---
+
 ## HTTP Status Codes
 
 | Code | Meaning | Description |

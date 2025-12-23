@@ -54,28 +54,63 @@ curl -X POST https://api.mozesms.com/v2/sms/send \
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/v2/sms/send` | Send single SMS |
-| POST | `/sms/bulk` | Send bulk SMS |
-| GET | `/account/balance` | Check account balance |
-| GET | `/sms/history` | Get message history |
-| GET | `/sms/status/:id` | Check delivery status |
+### Core Endpoints (Recommended)
+
+| Method | Endpoint | Authentication | Description |
+|--------|----------|----------------|-------------|
+| POST | `/v2/sms/send` | Bearer Token | Send single SMS message |
+| POST | `/sms/bulk` | API Headers/Bearer | Send bulk SMS (multiple recipients) |
+| GET | `/account/balance` | Any | Check current account balance |
+| GET | `/sms/history` | Any | Retrieve message history with filters |
+| GET | `/sms/status/:id` | Any | Check delivery status of specific message |
+| POST | `/auth/login` | None | Obtain JWT token (email/password) |
+| POST | `/auth/refresh` | Refresh Token | Renew expired JWT access token |
+
+### Legacy Endpoints (Backward Compatibility)
+
+For existing integrations using our older API format:
+
+| Method | Endpoint | Format | Description |
+|--------|----------|--------|-------------|
+| POST | `/message/v2` | Form-data | Legacy single SMS (v2) |
+| POST | `/message/v3` | Form-data | Legacy single SMS (v3) |
+| POST | `/otp/v2` | Form-data | Send OTP verification code |
+| POST | `/bulk_json/v2` | JSON array | Legacy bulk SMS |
+
+**Note:** Legacy endpoints use Bearer authentication with format: `Bearer {user_id}:{api_key}`
 
 ## Authentication
 
-All API requests require authentication using one of these methods:
+All API requests require authentication. We support multiple methods for maximum compatibility:
 
-### Bearer Token (Recommended)
+### Method 1: Bearer Token (Recommended)
+Simple and secure authentication for modern applications.
+
 ```http
 Authorization: Bearer {user_id}:{api_key}
 ```
 
-### API Headers
+**Example:**
+```http
+Authorization: Bearer 12:EYjgLC-PtDmy2-duGtiX-pHgbop
+```
+
+### Method 2: API Key Headers
+Separate headers for added security.
+
 ```http
 X-API-Key: {api_key}
 X-API-Secret: {user_id}:{api_key}
 ```
+
+### Method 3: JWT Token
+For user-based authentication with session management.
+
+```http
+Authorization: Bearer {jwt_access_token}
+```
+
+First obtain a JWT token via `/auth/login`, then use it for subsequent requests.
 
 ## Code Examples
 
