@@ -116,6 +116,7 @@ First obtain a JWT token via `/auth/login`, then use it for subsequent requests.
 
 ### PHP
 ```php
+<?php
 $ch = curl_init('https://api.mozesms.com/v2/sms/send');
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POST, true);
@@ -129,7 +130,14 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode([
     'sender_id' => 'YourBrand'
 ]));
 $response = curl_exec($ch);
+$result = json_decode($response, true);
 curl_close($ch);
+
+if ($result['success']) {
+    echo "SMS sent! Cost: {$result['data']['cost']} MZN\n";
+    echo "Balance: {$result['data']['remaining_balance']} MZN\n";
+}
+?>
 ```
 
 ### Python
@@ -148,7 +156,11 @@ response = requests.post(
         'sender_id': 'YourBrand'
     }
 )
-print(response.json())
+
+result = response.json()
+if result['success']:
+    print(f"SMS sent! Cost: {result['data']['cost']} MZN")
+    print(f"Balance: {result['data']['remaining_balance']} MZN")
 ```
 
 ### Node.js
@@ -165,8 +177,92 @@ axios.post('https://api.mozesms.com/v2/sms/send', {
         'Content-Type': 'application/json'
     }
 }).then(response => {
-    console.log(response.data);
+    const result = response.data;
+    if (result.success) {
+        console.log(`SMS sent! Cost: ${result.data.cost} MZN`);
+        console.log(`Balance: ${result.data.remaining_balance} MZN`);
+    }
+}).catch(error => {
+    console.error('Error:', error.response?.data || error.message);
 });
+```
+
+### Java
+```java
+import java.net.http.*;
+import java.net.URI;
+import org.json.*;
+
+public class MozeSMS {
+    public static void main(String[] args) throws Exception {
+        String apiUrl = "https://api.mozesms.com/v2/sms/send";
+        String authToken = "Bearer 12:YOUR_API_KEY";
+        
+        JSONObject payload = new JSONObject();
+        payload.put("phone", "258847001234");
+        payload.put("message", "Hello World");
+        payload.put("sender_id", "YourBrand");
+        
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(apiUrl))
+            .header("Authorization", authToken)
+            .header("Content-Type", "application/json")
+            .POST(HttpRequest.BodyPublishers.ofString(payload.toString()))
+            .build();
+            
+        HttpResponse<String> response = client.send(request, 
+            HttpResponse.BodyHandlers.ofString());
+            
+        JSONObject result = new JSONObject(response.body());
+        if (result.getBoolean("success")) {
+            JSONObject data = result.getJSONObject("data");
+            System.out.println("SMS sent! Cost: " + data.getDouble("cost") + " MZN");
+            System.out.println("Balance: " + data.getDouble("remaining_balance") + " MZN");
+        }
+    }
+}
+```
+
+### C# (.NET)
+```csharp
+using System;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+class Program
+{
+    static async Task Main()
+    {
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer 12:YOUR_API_KEY");
+        
+        var payload = new
+        {
+            phone = "258847001234",
+            message = "Hello World",
+            sender_id = "YourBrand"
+        };
+        
+        var json = JsonSerializer.Serialize(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        
+        var response = await client.PostAsync(
+            "https://api.mozesms.com/v2/sms/send", content);
+        
+        var result = await response.Content.ReadAsStringAsync();
+        var data = JsonSerializer.Deserialize<JsonElement>(result);
+        
+        if (data.GetProperty("success").GetBoolean())
+        {
+            var smsData = data.GetProperty("data");
+            Console.WriteLine($"SMS sent! Cost: {smsData.GetProperty("cost")} MZN");
+            Console.WriteLine($"Balance: {smsData.GetProperty("remaining_balance")} MZN");
+        }
+    }
+}
 ```
 
 ## Pricing
@@ -182,6 +278,37 @@ axios.post('https://api.mozesms.com/v2/sms/send', {
 
 - **100 requests per minute** per account
 - **1000 SMS per minute** for bulk sending
+
+## Frequently Asked Questions
+
+**Q: How long does it take for messages to be delivered?**  
+A: Typically 1-5 seconds. During peak hours, delivery may take up to 30 seconds.
+
+**Q: Can I send international SMS?**  
+A: Currently, we only support Mozambican phone numbers (258 country code).
+
+**Q: What happens if a message fails to send?**  
+A: Your balance is only deducted for successfully sent messages. Failed messages are not charged.
+
+**Q: How do I get a custom Sender ID?**  
+A: Request approval via the portal at [https://my.mozesms.com/sender-ids](https://my.mozesms.com/sender-ids). Approval typically takes 1-2 business days.
+
+**Q: Is there a minimum balance requirement?**  
+A: Yes, the minimum recharge amount is 100 MZN.
+
+**Q: Do credits expire?**  
+A: No, account credits never expire.
+
+**Q: Can I receive SMS with this API?**  
+A: Currently, this is a send-only API. We're developing two-way SMS capabilities.
+
+**Q: What's the difference between v2 and v4 endpoints?**  
+A: v4 endpoints (like `/v2/sms/send`) use modern JSON format with better error handling. v2 endpoints (like `/message/v2`) use legacy form-data format for backward compatibility.
+
+**Q: How do I migrate from the old API?**  
+A: Both old and new endpoints work simultaneously. Update your code gradually. The new API offers better features and error handling.
+
+---
 
 ## Support
 
