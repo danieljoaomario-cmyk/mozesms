@@ -1,0 +1,20 @@
+{
+  "name": "mozesms-nodejs-examples",
+  "version": "1.0.0",
+  "description": "MozeSMS API examples for Node.js",
+  "main": "index.js",
+  "scripts": {
+    "send": "node send_single_sms.js",
+    "bulk": "node send_bulk_sms.js",
+    "balance": "node check_balance.js",
+    "history": "node get_history.js",
+    "status": "node check_status.js"
+  },
+  "keywords": ["sms", "mozesms", "api", "mozambique"],
+  "author": "MozeSMS",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "dotenv": "^16.3.1"
+  }
+}
