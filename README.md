@@ -135,6 +135,24 @@ curl -X POST https://api.mozesms.com/v2/sms/send \
 | POST | `/auth/login` | None | Obtain JWT token (email/password) |
 | POST | `/auth/refresh` | Refresh Token | Renew expired JWT access token |
 
+## 📦 Code Examples
+
+Ready-to-use code examples for quick integration:
+
+👉 **[Browse All Examples](./examples/)** - Complete working examples in multiple languages
+
+- **[PHP Examples](./examples/php/)** - Send SMS, check balance, get history
+- **[Python Examples](./examples/python/)** - Type-hinted, modern Python code
+- **[Node.js Examples](./examples/nodejs/)** - Async/await with Axios
+- **[Java Examples](./examples/java/)** - Maven/Gradle ready examples
+- **[C# Examples](./examples/csharp/)** - .NET 6.0+ with HttpClient
+
+Each folder includes:
+- ✅ Configuration templates
+- ✅ Complete working examples
+- ✅ Error handling
+- ✅ Step-by-step instructions
+
 ### Legacy Endpoints (Backward Compatibility)
 
 For existing integrations using our older API format:
